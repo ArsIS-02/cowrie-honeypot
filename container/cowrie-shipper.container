@@ -1,0 +1,19 @@
+[Unit]
+Description=Cowrie → Graylog (GELF) shipper
+After=cowrie.service
+Requires=cowrie.service
+
+[Container]
+Image=localhost/cowrie-shipper:latest
+ContainerName=cowrie-shipper
+Volume=%h/cowrie/data/log/cowrie:/logs:z,ro
+Environment=GELF_HOST=host.containers.internal
+Environment=GELF_PORT=12206
+
+[Service]
+Restart=always
+RestartSec=5
+SuccessExitStatus=143
+
+[Install]
+WantedBy=default.target
